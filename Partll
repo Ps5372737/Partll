@@ -1,0 +1,63 @@
+npx create-next-app@latest notification-page
+cd notification-page
+npm install @nextui-org/react
+import { Container, Text, Button } from '@nextui-org/react';
+
+const NotificationPage = () => {
+  const sendNotification = () => {
+    if (Notification.permission === 'granted') {
+      new Notification('Demo Notification', {
+        body: 'This is a test notification!',
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification('Demo Notification', {
+            body: 'This is a test notification!',
+          });
+        }
+      });
+    }
+  };
+
+  return (
+    <Container style={{ textAlign: 'center', padding: '50px 0', backgroundColor: '#0d0d0d', color: '#fff', minHeight: '100vh' }}>
+      <Text h2 style={{ marginBottom: '20px' }}>Hola!</Text>
+      <div style={{ marginBottom: '30px' }}>
+        <div style={{ 
+          width: '120px', 
+          height: '120px', 
+          borderRadius: '50%', 
+          background: 'radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(255,255,255,0.15) 70%)',
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          margin: '0 auto' 
+        }}>
+          <div style={{ 
+            width: '80px', 
+            height: '80px', 
+            borderRadius: '50%', 
+            background: 'radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(255,255,255,0.25) 70%)',
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center' 
+          }}>
+            <img src="/notification-icon.png" alt="Notification Icon" style={{ width: '40px', height: '40px' }} />
+          </div>
+        </div>
+      </div>
+      <Text h3 style={{ marginBottom: '10px' }}>Lorem Ipsum...</Text>
+      <Text style={{ marginBottom: '30px' }}>Lorem ipsum dolor sit amet.</Text>
+      <Button onClick={sendNotification} style={{ backgroundColor: '#6c63ff', color: '#fff' }}>Send Notification</Button>
+    </Container>
+  );
+};
+
+export default NotificationPage;
+import NotificationPage from '../components/NotificationPage';
+
+export default function Home() {
+  return <NotificationPage />;
+}
+npm run dev
